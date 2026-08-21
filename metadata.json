@@ -1,0 +1,6 @@
+{
+  "name": "Teacher Student Progress & Performance Hub",
+  "description": "Comprehensive student management portal for teachers to log grades, track attendance, monitor behavior records, maintain photo profiles, and generate historical performance dossiers for parent-teacher conferences.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check authentication
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Teacher profiles
+    match /teachers/{teacherId} {
+      allow read, write: if isAuthenticated() && (request.auth.uid == teacherId || resource == null);
+    }
+
+    // Students collection (scoped to teacher)
+    match /students/{studentId} {
+      allow read, write: if isAuthenticated() && (resource == null || resource.data.teacherId == request.auth.uid || request.resource.data.teacherId == request.auth.uid);
+    }
+
+    // Grades collection
+    match /grades/{gradeId} {
+      allow read, write: if isAuthenticated() && (resource == null || resource.data.teacherId == request.auth.uid || request.resource.data.teacherId == request.auth.uid);
+    }
+
+    // Attendance collection
+    match /attendance/{attendanceId} {
+      allow read, write: if isAuthenticated() && (resource == null || resource.data.teacherId == request.auth.uid || request.resource.data.teacherId == request.auth.uid);
+    }
+
+    // Behavior logs collection
+    match /behavior/{behaviorId} {
+      allow read, write: if isAuthenticated() && (resource == null || resource.data.teacherId == request.auth.uid || request.resource.data.teacherId == request.auth.uid);
+    }
+
+    // Parent meeting notes collection
+    match /parent_meetings/{meetingId} {
+      allow read, write: if isAuthenticated() && (resource == null || resource.data.teacherId == request.auth.uid || request.resource.data.teacherId == request.auth.uid);
+    }
+
+    // Classes / Subjects metadata
+    match /classes/{classId} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}
